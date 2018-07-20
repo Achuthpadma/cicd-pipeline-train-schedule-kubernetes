@@ -42,6 +42,17 @@ pipeline {
             when {
                 branch 'master'
             }
+            environment { 
+                CANARY_REPLICAS = 0
+            }
+            steps
+            {
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'train-schedule-kube.yml',
+                    enableConfigSubstitution: true 
+                ) 
+            }
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
